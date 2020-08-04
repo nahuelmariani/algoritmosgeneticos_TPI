@@ -3,8 +3,8 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import random
 import numpy as np
-plt.rcParams['figure.figsize'] = (16, 9)
-plt.style.use('ggplot')
+#plt.rcParams['figure.figsize'] = (16, 9)
+#plt.style.use('ggplot')
 
 # PARÁMETROS
 cant_pi = 50 # Cantidad población inicial = 50
@@ -22,7 +22,6 @@ cant_celdas = 100 # Cantidad de celdas en el terreno 10x10
 # PARÁMETROS CALCULADOS
 radio_estela = 2 * diam_turbina/2 # El coeficiente puede ser entre 1 y 4
 long_estela = 9 * diam_turbina # El coeficiente puede ser entre 6 y 18
-
 
 # FUNCION DE POTENCIA GENERADA
 # Argumento: velocidad del viento (Double)
@@ -127,7 +126,10 @@ def crossover(matriz1,matriz2):
             else: # Si la columna i del Padre 2 genera más potencia que la columna i del Padre 1:
                 matriz_col = np.vstack((matriz_col, matriz2[:,i])) # Uso columna i de Padre 2 para crear la columna i del Hijo 2
         matriz_col = matriz_col.transpose() # Transpuesta, porque usé stack vertical
-    return matriz1, matriz2
+    else:
+        matriz_fila = matriz1
+        matriz_col = matriz2
+    return matriz_fila, matriz_col
 
 # MUTACION
 # Argumento: Posiciones de los molinos en el parque. (Array[10x10] de Enteros)
@@ -251,6 +253,62 @@ def graficar_parque(matriz):
     plt.show(img)
     return
 
+# REPORTE: usado para mostrar funcionamiento del programa
+# Argumento: 2 parques eólicos. (Array[10x10] de Enteros)
+def reporte(matriz1,matriz2):
+    m1_f, m1_c = potencias_fila_columna(matriz1) # Obtengo potencias por filas y por columnas de Padre 1
+    m2_f, m2_c = potencias_fila_columna(matriz2) # Obtengo potencias por filas y por columnas de Padre 2
+    
+    m1_c = np.array(m1_c)
+    m2_c = np.array(m2_c)
+
+    cant1 = np.sum(matriz1)
+    cant2 = np.sum(matriz2)
+
+    p1, matriz1 = funcion_objetivo(matriz1)
+    p2, matriz2 = funcion_objetivo(matriz2)
+
+    m1_f = np.array(m1_f+[p1]).reshape((11, 1))
+    m2_f = np.array(m2_f+[p2]).reshape((11, 1))
+
+    matriz1 = np.vstack((matriz1, m1_c)) # Agrega una fila con las potencias de cada columna
+    matriz1 = np.hstack((matriz1, m1_f)) # Agrega un columna con las potencias de cada fila
+
+    matriz2 = np.vstack((matriz2, m2_c)) # Agrega una fila con las potencias de cada columna
+    matriz2 = np.hstack((matriz2, m2_f)) # Agrega un columna con las potencias de cada fila
+
+    print('Parque 1:', cant1, 'molinos')
+    print(matriz1)
+    print('Parque 2:', cant2, 'molinos')
+    print(matriz2)
+
+# PROGRAMA MUESTRA: usado para mostrar funcionamiento del programa
+def programa_muestra():
+    global cant_pi
+    global cant_corridas
+    global pm
+    global pc
+    cant_pi = 2
+    cant_corridas = 1
+    pm = 1
+    pc = 1
+    pob = crear_poblacion_inicial() # POBLACION INICIAL
+    print('1 - SELECCION *************************************')
+    a = pob[0] # SELECCIONAR PADRE 1
+    b = pob[1] # SELECCIONAR PADRE 2
+    reporte(a,b)
+    print('2 - CROSSOVER *************************************')
+    c,d = crossover(a,b) # CRUZAR PADRE 1 CON PADRE 2
+    reporte(c,d)
+    print('3 - MUTACION *************************************')
+    c = mutacion(c) # MUTAR HIJO 1
+    d = mutacion(d) # MUTAR HIJO 2
+    reporte(c,d)
+    print('4 - RECORTE *************************************')
+    c = recorte(c)  # RECORTAR HIJO 1
+    d = recorte(d)  # RECORTAR HIJO 2
+    reporte(c,d)
+
 # PROGRAMA PRINCIPAL
 def programa_principal():
     pob = crear_poblacion_inicial() # POBLACION INICIAL
@@ -281,3 +339,4 @@ def programa_principal():
     graficar_parque(max_matriz) # GRAFICAR PARQUE EÓLICO
 
 programa_principal()
+#programa_muestra()
