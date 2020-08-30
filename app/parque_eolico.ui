@@ -395,7 +395,7 @@ background-repeat: no-repeat; </string>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="select_aerogenerador"/>
   <buttongroup name="select_zona"/>
+  <buttongroup name="select_aerogenerador"/>
  </buttongroups>
 </ui>

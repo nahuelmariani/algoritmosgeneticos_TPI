@@ -1,6 +1,29 @@
 # -*- coding: utf-8 -*-
 from PyQt5 import QtCore, QtGui, QtWidgets
 import parque_eolico_v2
+import resultados_parque_eolico
+import potencia_generada
+
+class ResponseApp(QtWidgets.QMainWindow, resultados_parque_eolico.Ui_ResponseWindow):
+    def __init__(self, parent=None):
+        super(ResponseApp, self).__init__(parent)
+        self.setupUi(self)
+def response(self):
+        response = ResponseApp(self)
+        response.setMatriz(self.matriz_resultados)
+        self.dialogs.append(response)
+        response.show() 
+
+class PotenciaApp(QtWidgets.QMainWindow, potencia_generada.Ui_PotenciaWindow):
+    def __init__(self, parent=None):
+        super(PotenciaApp, self).__init__(parent)
+        self.setupUi(self)
+def potencia(self):
+        potencia = PotenciaApp(self)
+        potencia.setPotencia(self.potencia_generada)
+        potencia.setGraficoPotencia(self.grafico_resultados)
+        self.dialogs.append(potencia)
+        potencia.show() 
 
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
@@ -131,7 +154,9 @@ class Ui_mainWindow(object):
         self.titulo_viento.setGeometry(QtCore.QRect(420, 130, 100, 17))
         self.titulo_viento.setObjectName("titulo_viento")
         mainWindow.setCentralWidget(self.centralwidget)
-
+        self.matriz_resultados = None
+        self.potencia_generada = None
+        self.grafico_resultados = None
         self.retranslateUi(mainWindow)
         QtCore.QMetaObject.connectSlotsByName(mainWindow)
 
@@ -143,7 +168,9 @@ class Ui_mainWindow(object):
         aerogenerador_elegido = lista_aerogeneradores[[self.select_aerogenerador.buttons()[x].isChecked() for x in range(len(self.select_aerogenerador.buttons()))].index(True)]
         print("velocidad viento zona: ",zona_elegida)
         print("aerogenerador: ",aerogenerador_elegido)
-        parque_eolico_v2.programa_principal(zona_elegida,aerogenerador_elegido) 
+        self.matriz_resultados,self.potencia_generada,self.grafico_resultados=parque_eolico_v2.programa_principal(zona_elegida,aerogenerador_elegido)
+        potencia(self)
+        response(self)
         
     def retranslateUi(self, mainWindow):
         _translate = QtCore.QCoreApplication.translate

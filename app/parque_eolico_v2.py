@@ -253,7 +253,10 @@ def graficar_resultados(data):
     plt.ylim(bottom=0)
     plt.legend()
     plt.show()
-    return
+    img = "grafico_resultados.png"
+    plt.savefig("img/{}".format(img))
+    plt.close()
+    return img
 
 # GRAFICAR PARQUE EÓLICO
 # Argumento: Posiciones de los molinos en el parque. (Array[10x10] de Enteros)
@@ -348,8 +351,9 @@ def programa_principal(u0, tipoAerogenerador):
             max_potencia = fila[1] # Guardar máxima potencia
             max_matriz = pob[fila[3]] # Guardar mejor parque
         tabla.append(fila) # Rellenar tabla
-    graficar_resultados(tabla) # GRAFICAR CORRIDAS
-    graficar_parque(max_matriz) # GRAFICAR PARQUE EÓLICO
+    url_resultados=graficar_resultados(tabla) # GRAFICAR CORRIDAS
+    #graficar_parque(max_matriz) # GRAFICAR PARQUE EÓLICO
+    return max_matriz,max_potencia,url_resultados
 
 #programa_principal(5.5,"gamesa")
 #programa_muestra()
