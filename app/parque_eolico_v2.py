@@ -30,7 +30,7 @@ def potencia_generada(tipoAerogenerador,ux):
     #(velocidad viento,potencia generada)
     if tipoAerogenerador == 'vestas':
        tabla_potencia = [(3.5,36),(4,76),(4.5,134),(5,192),(5.5,269),(6,346),(6.5,465),(7,584)]
-    elif tipoAerogenerador == 'windwind':
+    elif tipoAerogenerador == 'winwind':
        tabla_potencia = [(3.5,38),(4,79),(4.5,165),(5,254),(5.5,354),(6,458),(6.5,599),(7,740)]
     else:
         #tipoAerogenerador == 'gamesa':
