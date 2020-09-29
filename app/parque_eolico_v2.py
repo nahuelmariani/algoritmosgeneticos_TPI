@@ -29,7 +29,7 @@ long_estela = 9 * diam_turbina # El coeficiente puede ser entre 6 y 18
 def potencia_generada(tipoAerogenerador,ux):
     #(velocidad viento,potencia generada)
     if tipoAerogenerador == 'vestas':
-       tabla_potencia = [(3.5,38),(4,77),(4.5,133),(5,190),(5.5,271),(6,353),(6.5,467),(7,581)]
+       tabla_potencia = [(3.5,36),(4,76),(4.5,134),(5,192),(5.5,269),(6,346),(6.5,465),(7,584)]
     elif tipoAerogenerador == 'windwind':
        tabla_potencia = [(3.5,38),(4,79),(4.5,165),(5,254),(5.5,354),(6,458),(6.5,599),(7,740)]
     else:
@@ -39,19 +39,6 @@ def potencia_generada(tipoAerogenerador,ux):
         if tabla_potencia[i][0]<=ux and ux<tabla_potencia[i+1][0]:
             return tabla_potencia[i][1]
     return 0
-    """x=int(ux) # Parte entera
-    if x<=4: p=0
-    if x==5: p=53
-    if x==6: p=106
-    if x==7: p=166
-    if x==8: p=252
-    if x==9: p=350
-    if x==10: p=464
-    if x==11: p=560
-    if x==12: p=630
-    if x>=13 and x<=25: p=660
-    if x>25: p=0
-    return p"""
 
 # FUNCION OBJETIVO
 # Argumento: Posiciones de los molinos en el parque (Array[10x10] de Enteros)

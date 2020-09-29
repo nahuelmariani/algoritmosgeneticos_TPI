@@ -127,7 +127,7 @@ background-color: rgba( 255, 255, 255, 0% );</string>
 background-color: rgba( 255, 255, 255, 0% );</string>
     </property>
     <property name="text">
-     <string>Vestas V90/3000</string>
+     <string>Vestas V112/3000</string>
     </property>
     <attribute name="buttonGroup">
      <string notr="true">select_aerogenerador</string>

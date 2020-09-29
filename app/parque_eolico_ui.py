@@ -181,7 +181,7 @@ class Ui_mainWindow(object):
         self.titulo_aerogenerador.setText(_translate("mainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;color:black\">Aerogenerador</span></p></body></html>"))
         self.titulo_ciudad.setText(_translate("mainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;color:black\">Zona</span></p></body></html>"))
         self.radioButton_winwid.setText(_translate("mainWindow", "Gamesa G47"))
-        self.radioButton_vestas.setText(_translate("mainWindow", "Vestas V90/3000"))
+        self.radioButton_vestas.setText(_translate("mainWindow", "Vestas V112/3000"))
         self.radioButton_gamesa.setText(_translate("mainWindow", "Winwid WWD-3-10"))
         self.radioButton_zona1.setText(_translate("mainWindow", "Zona 1"))
         self.radioButton_zona2.setText(_translate("mainWindow", "Zona 2"))
