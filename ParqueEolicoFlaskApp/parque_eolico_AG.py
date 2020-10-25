@@ -11,17 +11,28 @@ cant_pi = 50 # Cantidad población inicial = 50
 cant_corridas = 300 # Cantidad de corridas
 pc = 0.75 # Probabilidad de crossover
 pm = 0.20 # Probabilidad de mutación
-cant_molinos = 25 # Cantidad de molinos
+#cant_aerogeneradores = 25 # Cantidad de molinos
 #u0 = 20 # Velocidad del viento en m/s
 coef_arrastre = 0.05 # alpha
 coef_induccionAxial = 0.333 # a
-diam_turbina = 47 # Metros
+#diam_turbina = 47 # Metros
 tam_celda = 94 # Metros
 cant_celdas = 100 # Cantidad de celdas en el terreno 10x10
 
 # PARÁMETROS CALCULADOS
-radio_estela = 2 * diam_turbina/2 # El coeficiente puede ser entre 1 y 4
-long_estela = 9 * diam_turbina # El coeficiente puede ser entre 6 y 18
+#radio_estela = 2 * diam_turbina/2 # El coeficiente puede ser entre 1 y 4
+#long_estela = 9 * diam_turbina # El coeficiente puede ser entre 6 y 18
+
+def diametro_turbina(tipoAerogenerador):
+    if tipoAerogenerador == 'vestasV112':
+        diam_turbina=112
+    elif tipoAerogenerador == 'winwindWWD-3-100':
+        diam_turbina=100
+    else:
+        diam_turbina=47
+    radio_estela = 2 * diam_turbina/2 # El coeficiente puede ser entre 1 y 4
+    long_estela = 9 * diam_turbina # El coeficiente puede ser entre 6 y 18
+    return radio_estela,long_estela
 
 # FUNCION DE POTENCIA GENERADA
 # Argumento: velocidad del viento (Double), modelo de Aerogenerador
@@ -49,6 +60,7 @@ def potencia_generada(tipoAerogenerador,ux):
 def funcion_objetivo(matriz,u0,tipoAerogenerador): 
     total_pot = 0
     matriz_pot = []
+    radio_estela,long_estela = diametro_turbina(tipoAerogenerador)
     for j in range(10): # Recorro por columna
         pos_molino_ant = -10 # El primer molino con el que comparo está muy lejos
         col_pot = [] 
@@ -74,10 +86,10 @@ def funcion_objetivo(matriz,u0,tipoAerogenerador):
 # POBLACION INICIAL
 # Argumento: Null
 # Devuelve: Población de 50 parque eólicos, cada uno tiene la ubicacion de los 25 molinos. (List[50] de Array[10x10] de Enteros)
-def crear_poblacion_inicial():
+def crear_poblacion_inicial(cant_aerogeneradores):
     pob = []
     for _ in range(cant_pi):
-        data = [1]*cant_molinos + [0]*(100-cant_molinos) # Creo lista con tantos 1 como cantidad de molinos. (25 unos y 75 ceros)
+        data = [1]*cant_aerogeneradores + [0]*(100-cant_aerogeneradores) # Creo lista con tantos 1 como cantidad de molinos. (25 unos y 75 ceros)
         random.shuffle(data) # Mezclo la Lista
         dataArray = np.array(data) # Paso Lista a Array
         matriz = np.reshape(dataArray,(10,10)) # Le doy forma de Matriz de 10x10
@@ -148,9 +160,9 @@ def mutacion(matriz):
 # RECORTE: Elimina molinos que superen el máximo permitido por parque. Elimina los que menos generan.
 # Argumento: Posiciones de los molinos en el parque. (Array[10x10] de Enteros)
 # Devuelve: Posiciones de los molinos en el parque. (Array[10x10] de Enteros)
-def recorte(matriz,u0,tipoAerogenerador):
+def recorte(matriz,u0,tipoAerogenerador,cant_aerogeneradores):
     x = np.sum(matriz) # Cantidad de molinos
-    if x > cant_molinos: # Si supera los 25
+    if x > cant_aerogeneradores: # Si supera los 25
         _, matriz_pot = funcion_objetivo(matriz,u0,tipoAerogenerador) # Potencia generada por cada molino
         # Cambiar los ceros por 99999. Permite buscar los que menos generan, sin que los ceros influyan. Mejorar!
         for i in range(10):
@@ -158,7 +170,7 @@ def recorte(matriz,u0,tipoAerogenerador):
                 if matriz_pot[i][j]==0:
                     matriz_pot[i][j]=99999
 
-        for _ in range(x-25): # Repite la cantidad de molinos excedentes
+        for _ in range(x-cant_aerogeneradores): # Repite la cantidad de molinos excedentes
             coordenadas = np.where(matriz_pot == np.amin(matriz_pot)) # Índices de los mínimos elementos. 
             # 'Where' devuelve en formato "(array([4, 6], dtype=int32), array([3, 7], dtype=int32))" si hay dos mínimos y están en (4,3) y (6,7)
             f = coordenadas[0][0] # Fila del primer mínimo
@@ -287,7 +299,7 @@ def reporte(matriz1,matriz2,u0,tipoAerogenerador):
     print(matriz2)
 
 # PROGRAMA MUESTRA: usado para mostrar funcionamiento del programa
-def programa_muestra(u0,tipoAerogenerador):
+def programa_muestra(u0,tipoAerogenerador,cant_aerogeneradores):
     global cant_pi
     global cant_corridas
     global pm
@@ -296,7 +308,7 @@ def programa_muestra(u0,tipoAerogenerador):
     cant_corridas = 1
     pm = 1
     pc = 1
-    pob = crear_poblacion_inicial() # POBLACION INICIAL
+    pob = crear_poblacion_inicial(cant_aerogeneradores) # POBLACION INICIAL
     print('1 - SELECCION *************************************')
     a = pob[0] # SELECCIONAR PADRE 1
     b = pob[1] # SELECCIONAR PADRE 2
@@ -309,14 +321,15 @@ def programa_muestra(u0,tipoAerogenerador):
     d = mutacion(d) # MUTAR HIJO 2
     reporte(c,d,u0,tipoAerogenerador)
     print('4 - RECORTE *************************************')
-    c = recorte(c,u0,tipoAerogenerador)  # RECORTAR HIJO 1
-    d = recorte(d,u0,tipoAerogenerador)  # RECORTAR HIJO 2
+    c = recorte(c,u0,tipoAerogenerador,cant_aerogeneradores)  # RECORTAR HIJO 1
+    d = recorte(d,u0,tipoAerogenerador,cant_aerogeneradores)  # RECORTAR HIJO 2
     reporte(c,d,u0,tipoAerogenerador)
 
 # PROGRAMA PRINCIPAL
 #u0 velocidad del viento en la zona elegida
-def programa_principal(u0, tipoAerogenerador):
-    pob = crear_poblacion_inicial() # POBLACION INICIAL
+def programa_principal(u0, tipoAerogenerador,cant_aerogeneradores):
+    #setea variables según aerogenerador
+    pob = crear_poblacion_inicial(cant_aerogeneradores) # POBLACION INICIAL
     tabla = []
     max_potencia = 0
     max_matriz = np.empty((0,10), int)
@@ -330,8 +343,8 @@ def programa_principal(u0, tipoAerogenerador):
             c,d = crossover(a,b,u0,tipoAerogenerador) # CRUZAR PADRE 1 CON PADRE 2
             c = mutacion(c) # MUTAR HIJO 1
             d = mutacion(d) # MUTAR HIJO 2
-            c = recorte(c,u0,tipoAerogenerador)  # RECORTAR HIJO 1
-            d = recorte(d,u0,tipoAerogenerador)  # RECORTAR HIJO 2
+            c = recorte(c,u0,tipoAerogenerador,cant_aerogeneradores)  # RECORTAR HIJO 1
+            d = recorte(d,u0,tipoAerogenerador,cant_aerogeneradores)  # RECORTAR HIJO 2
             pobHijos.append(c) # INSERTAR HIJO 1
             pobHijos.append(d) # INSERTAR HIJO 2
         pob = pobHijos

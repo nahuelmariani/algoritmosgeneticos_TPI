@@ -14,7 +14,9 @@ def resultados():
     if request.method == 'POST':
         aerogenerador = request.form['groupAerogeneradores']
         velocidad_viento = float(request.form['groupZona'])
-        parque_optimo, potencia_generada, tabla_resultados = parque_eolico_AG.programa_principal(velocidad_viento,aerogenerador)
+        cantidad_aerogeneradores = int(request.form['cantidad_aerogeneradores'])
+        #tamano_terreno = int(request.form['tamano_terreno'])
+        parque_optimo, potencia_generada, tabla_resultados = parque_eolico_AG.programa_principal(velocidad_viento,aerogenerador,cantidad_aerogeneradores)
         tabla_minimos = []
         tabla_maximos = []
         tabla_promedios = []

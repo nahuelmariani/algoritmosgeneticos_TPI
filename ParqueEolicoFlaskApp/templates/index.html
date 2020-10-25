@@ -1,161 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Parque Eólico en Santa Fe</title>
-  <!-- MDB icon -->
-  <link rel="icon" href="static/img/aerogeneradores.ico" type="image/x-icon">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-  <!-- Google Fonts Roboto -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="static/css/bootstrap.min.css">
-  <!-- Material Design Bootstrap -->
-  <link rel="stylesheet" href="static/css/mdb.min.css">
-  <!-- Custom styles -->
-  <link rel="stylesheet" href="static/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Parque Eólico en Santa Fe</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="static/img/aerogeneradores.ico" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href="static/css/mdb.min.css">
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="static/css/style.css">
 </head>
+
 <body>
-  <header>
-  <!-- Intro -->
-    <div class="card card-intro dusty-grass-gradient">
-      <div class="card-body white-text rgba-black-light text-center">
-        <!--Grid row-->
-        <div class="row d-flex justify-content-center">
-          <!--Grid column-->
-          <div class="col-md-1">
-            <a href="/"><img class="rounded-circle" width="60px" src="static/img/aerogeneradores.ico" alt="Logo" data-holder-rendered="true"></a>
-          </div>
-          <div class="col-md-11">
-            <p class="h5 mb-2">
-              Optimización de un parque eólico ubicado en la provincia de Santa Fe
-            </p>
-            <p class="mb-0">Con Algoritmos Genéticos</p>
-          </div>
-          <!--Grid column-->
+    <header>
+        <!-- Intro -->
+        <div class="card card-intro dusty-grass-gradient">
+            <div class="card-body white-text rgba-black-light text-center">
+                <!--Grid row-->
+                <div class="row d-flex justify-content-center">
+                    <!--Grid column-->
+                    <div class="col-md-1">
+                        <a href="/"><img class="rounded-circle" width="60px" src="static/img/aerogeneradores.ico" alt="Logo" data-holder-rendered="true"></a>
+                    </div>
+                    <div class="col-md-11">
+                        <p class="h5 mb-2">
+                            Optimización de un parque eólico ubicado en la provincia de Santa Fe
+                        </p>
+                        <p class="mb-0">Con Algoritmos Genéticos</p>
+                    </div>
+                    <!--Grid column-->
+                </div>
+                <!--Grid row-->
+            </div>
         </div>
-        <!--Grid row-->
-      </div>
-    </div>
-    <!-- Intro -->
-  </header>
-  
-  <!--Section: Content-->
-  <section class="dark-grey-text text-center px-md-5 py-5">
-    <!-- Grid row -->
-    <div class="row">
-      <!-- Grid column -->
-      <div class="col-lg-6 col-md-8 mx-auto">
-        <!-- Form -->
-        <form class="" action="{{ url_for('resultados') }}" method="POST">
-          <!-- Section heading -->
-          <h3 class="font-weight-bold mb-4">Configuración</h3>
-          
-          <p class="text-muted mb-4 pb-2">Elija las opciones para optimizar el parque eólico con Algoritmos Genéticos.</p>
- 
-          <h4 class="font-weight-bold mb-4">Aerogenerador</h4>
-          <div class="container mb-4 pb-3">
-            <div class="row">
-              <div class="col-lg-4 col-md-12 mb-4">
-                <!-- Featured image -->
-                <div class="view overlay rounded z-depth-2 mb-4">
-                  <img class="img-fluid" src="static/img/gamesa_min.jpg" alt="Gamesa G47">
-                </div>
-                <input type="radio" class="custom-control-input" id="gamesa" value="gamesaG47" name="groupAerogeneradores" checked>
-                <label class="custom-control-label" for="gamesa">Gamesa G47</label>
-              </div>
-              <div class="col-lg-4 col-md-12 mb-4">
-                <!-- Featured image -->
-                <div class="view overlay rounded z-depth-2 mb-4">
-                  <img class="img-fluid" src="static/img/vestas_min.jpg" alt="Vestas V112/3000">
-                </div>
-                <input type="radio" class="custom-control-input" id="vestas" value="vestasV112" name="groupAerogeneradores">
-                <label class="custom-control-label" for="vestas">Vestas V112/3000</label>
-              </div>
-              <div class="col-lg-4 col-md-12 mb-4">
-                <!-- Featured image -->
-                <div class="view overlay rounded z-depth-2 mb-4">
-                  <img class="img-fluid" src="static/img/winwind_min.jpg" alt="WinWind WWD-3-100">
-                </div>
-                <input type="radio" class="custom-control-input" id="winwind" value="winwindWWD-3-100" name="groupAerogeneradores">
-                <label class="custom-control-label" for="winwind">WinWind WWD-3-100</label>
-              </div>
+        <!-- Intro -->
+    </header>
+
+    <!--Section: Content-->
+    <section class="dark-grey-text text-center px-md-5 py-5">
+        <!-- Grid row -->
+        <div class="row">
+            <!-- Grid column -->
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <!-- Form -->
+                <form class="" action="{{ url_for('resultados') }}" method="POST">
+                    <!-- Section heading -->
+                    <h3 class="font-weight-bold mb-4">Configuración</h3>
+
+                    <p class="text-muted mb-4 pb-2">Elija las opciones para optimizar el parque eólico con Algoritmos Genéticos.</p>
+
+                    <h4 class="font-weight-bold mb-4">Aerogenerador</h4>
+                    <div class="container mb-4 pb-3">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-12 mb-4">
+                                <!-- Featured image -->
+                                <div class="view overlay rounded z-depth-2 mb-4">
+                                    <img class="img-fluid" src="static/img/gamesa_min.jpg" alt="Gamesa G47">
+                                </div>
+                                <input type="radio" class="custom-control-input" id="gamesa" value="gamesaG47" name="groupAerogeneradores" checked>
+                                <label class="custom-control-label" for="gamesa">Gamesa G47</label>
+                            </div>
+                            <div class="col-lg-4 col-md-12 mb-4">
+                                <!-- Featured image -->
+                                <div class="view overlay rounded z-depth-2 mb-4">
+                                    <img class="img-fluid" src="static/img/vestas_min.jpg" alt="Vestas V112/3000">
+                                </div>
+                                <input type="radio" class="custom-control-input" id="vestas" value="vestasV112" name="groupAerogeneradores">
+                                <label class="custom-control-label" for="vestas">Vestas V112/3000</label>
+                            </div>
+                            <div class="col-lg-4 col-md-12 mb-4">
+                                <!-- Featured image -->
+                                <div class="view overlay rounded z-depth-2 mb-4">
+                                    <img class="img-fluid" src="static/img/winwind_min.jpg" alt="WinWind WWD-3-100">
+                                </div>
+                                <input type="radio" class="custom-control-input" id="winwind" value="winwindWWD-3-100" name="groupAerogeneradores">
+                                <label class="custom-control-label" for="winwind">WinWind WWD-3-100</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 mb-12 form-inline">
+                                <label>Cantidad máxima de aerogeneradores:&nbsp;</label>
+                                <div class="def-number-input number-input safari_only">
+                                    <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
+                                    <input class="quantity" min="1" name="cantidad_aerogeneradores" value="25" type="number">
+                                    <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="font-weight-bold mb-4">Zona Geográfica (por velocidad promedio del viento)</h4>
+                    <div class="container mb-4 pb-3">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12 mb-4">
+                                <div class="view overlay rounded z-depth-2 mb-4">
+                                    <img class="img-fluid" src="static/img/referencias.png" alt="Referencias">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12 mb-4">
+                                <div class="custom-control">
+                                    <ul class="list-group text-left">
+                                        <li class="list-group-item">
+                                            <div class="ml-4">
+                                                <input type="radio" class="custom-control-input" id="zona1" value="6.5" name="groupZona" checked>
+                                                <label class="custom-control-label" for="zona1">Zona 1: 6,5 m/s</label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="ml-4">
+                                                <input type="radio" class="custom-control-input" id="zona2" value="6" name="groupZona">
+                                                <label class="custom-control-label" for="zona2">Zona 2: 6 m/s</label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="ml-4">
+                                                <input type="radio" class="custom-control-input" id="zona3" value="5.5" name="groupZona">
+                                                <label class="custom-control-label" for="zona3">Zona 3: 5,5 m/s</label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="ml-4">
+                                                <input type="radio" class="custom-control-input" id="zona4" value="5" name="groupZona">
+                                                <label class="custom-control-label" for="zona4">Zona 4: 5 m/s</label>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="ml-4">
+                                                <input type="radio" class="custom-control-input" id="zona5" value="4.5" name="groupZona">
+                                                <label class="custom-control-label" for="zona5">Zona 5: 4,5 m/s</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- <div class="row">
+                                <div class="col-lg-12 col-md-12 mb-12 form-inline">
+                                    <label>Dimensiones del terreno: m2&nbsp;</label>
+                                    <input class="quantity" min="1" name="tamano_terreno" value="10" type="number">
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+
+                    <div class="conatiner mb-4 pb-4">
+                        <div class="input-group-append">
+                            <button class="btn btn-md btn-light-green rounded waves-effect btn-block" type="submit" id="generar">Generar</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- Form -->
+
             </div>
-          </div>
-
-          <h4 class="font-weight-bold mb-4">Zona Geográfica (por velocidad promedio del viento)</h4>
-          <div class="container mb-4 pb-3">
-            <div class="row">
-              <div class="col-lg-6 col-md-12 mb-4">
-                <div class="view overlay rounded z-depth-2 mb-4">
-                  <img class="img-fluid" src="static/img/referencias.png" alt="Referencias">
-                </div>
-              </div>
-              <div class="col-lg-6 col-md-12 mb-4">
-                <div class="custom-control">
-                  <ul class="list-group text-left">
-                    <li class="list-group-item">
-                      <div class="ml-4">
-                        <input type="radio" class="custom-control-input" id="zona1" value="6.5" name="groupZona" checked>
-                        <label class="custom-control-label" for="zona1">Zona 1: 6,5 m/s</label>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <div class="ml-4">
-                        <input type="radio" class="custom-control-input" id="zona2" value="6" name="groupZona">
-                        <label class="custom-control-label" for="zona2">Zona 2: 6 m/s</label>                    
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <div class="ml-4">
-                        <input type="radio" class="custom-control-input" id="zona3" value="5.5" name="groupZona">
-                        <label class="custom-control-label" for="zona3">Zona 3: 5,5 m/s</label>  
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <div class="ml-4">
-                        <input type="radio" class="custom-control-input" id="zona4" value="5" name="groupZona">
-                        <label class="custom-control-label" for="zona4">Zona 4: 5 m/s</label>                   
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <div class="ml-4">
-                        <input type="radio" class="custom-control-input" id="zona5" value="4.5" name="groupZona"> 
-                        <label class="custom-control-label" for="zona5">Zona 5: 4,5 m/s</label>
-                      </div>
-                    </li>
-                  </ul>    
-                </div>
-              </div>
-            </div>
-          </div>          
-          
-          <div class="conatiner mb-4 pb-4">
-            <div class="input-group-append">
-              <button class="btn btn-md btn-light-green rounded waves-effect btn-block" type="submit" id="generar">Generar</button>
-            </div>
-          </div>
-        </form>
-        <!-- Form -->
-
-      </div>
-      <!-- Grid column -->
-    </div>
-    <!-- Grid row -->
-  </section>
+            <!-- Grid column -->
+        </div>
+        <!-- Grid row -->
+    </section>
 
 
-  <!-- jQuery -->
-  <script type="text/javascript" src="static/js/jquery.min.js"></script>
-  <!-- Bootstrap tooltips -->
-  <script type="text/javascript" src="static/js/popper.min.js"></script>
-  <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
-  <!-- MDB core JavaScript -->
-  <script type="text/javascript" src="static/js/mdb.min.js"></script>
+    <!-- jQuery -->
+    <script type="text/javascript" src="static/js/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="static/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="static/js/mdb.min.js"></script>
 
 </body>
+
 </html>
