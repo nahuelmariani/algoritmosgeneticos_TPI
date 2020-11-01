@@ -8,9 +8,9 @@ import numpy as np
 
 # PARÁMETROS
 cant_pi = 50 # Cantidad población inicial = 50
-cant_corridas = 1500 # Cantidad de corridas
+cant_corridas = 300 # Cantidad de corridas
 pc = 0.75 # Probabilidad de crossover  
-pm = 0.05 # Probabilidad de mutación
+pm = 0.25 # Probabilidad de mutación
 cant_molinos = 30 # Cantidad de molinos
 u0 = 20 # Velocidad del viento en m/s
 coef_arrastre = 0.05 # alpha
@@ -18,6 +18,7 @@ coef_induccionAxial = 0.333 # a
 diam_turbina = 47 # Metros
 tam_celda = 94 # Metros
 cant_celdas = 100 # Cantidad de celdas en el terreno 10x10
+r = 6 # Elitismo
 
 # PARÁMETROS CALCULADOS
 radio_estela = 2 * diam_turbina/2 # El coeficiente puede ser entre 1 y 4
@@ -150,15 +151,19 @@ def mutacion(matriz):
 # Devuelve: Posiciones de los molinos en el parque. (Array[10x10] de Enteros)
 def recorte(matriz):
     x = np.sum(matriz) # Cantidad de molinos
-    if x > cant_molinos: # Si supera los 25
-        _, matriz_pot = funcion_objetivo(matriz) # Potencia generada por cada molino
+    _, matriz_pot = funcion_objetivo(matriz) # Potencia generada por cada molino
+    for i in range(10):
+            for j in range(10):
+                if matriz_pot[i][j]==0 and matriz[i][j] == 1:
+                    matriz[i][j]=0
+    if x > cant_molinos: # Si supera los permitidos
         # Cambiar los ceros por 99999. Permite buscar los que menos generan, sin que los ceros influyan. Mejorar!
         for i in range(10):
             for j in range(10):
-                if matriz_pot[i][j]==0:
+                if matriz_pot[i][j]==0 and matriz[i][j] == 0:
                     matriz_pot[i][j]=99999
 
-        for _ in range(x-25): # Repite la cantidad de molinos excedentes
+        for _ in range(x-cant_molinos): # Repite la cantidad de molinos excedentes
             coordenadas = np.where(matriz_pot == np.amin(matriz_pot)) # Índices de los mínimos elementos. 
             # 'Where' devuelve en formato "(array([4, 6], dtype=int32), array([3, 7], dtype=int32))" si hay dos mínimos y están en (4,3) y (6,7)
             f = coordenadas[0][0] # Fila del primer mínimo
@@ -242,7 +247,7 @@ def graficar_resultados(data):
     plt.ylim(bottom=0)
     plt.legend()
     plt.show()
-    return
+    #return
 
 # GRAFICAR PARQUE EÓLICO
 # Argumento: Posiciones de los molinos en el parque. (Array[10x10] de Enteros)
@@ -290,7 +295,7 @@ def programa_muestra():
     global pm
     global pc
     cant_pi = 2
-    cant_corridas = 1
+    cant_corridas = 2
     pm = 1
     pc = 1
     pob = crear_poblacion_inicial() # POBLACION INICIAL
@@ -310,17 +315,31 @@ def programa_muestra():
     d = recorte(d)  # RECORTAR HIJO 2
     reporte(c,d)
 
+# ELITISMO
+def elitismo(poblacion):
+    elite = []
+    lista_fitness = []
+    fitness = funcion_fitness(poblacion)
+    for i in range(len(poblacion)):
+        lista_fitness.append([poblacion[i],fitness[i]])
+    lista_fitness.sort(key=lambda x:x[1], reverse=True)
+    for i in range(r):
+        elite.append(lista_fitness[i][0])
+    return elite
+
+
 # PROGRAMA PRINCIPAL
 def programa_principal():
     pob = crear_poblacion_inicial() # POBLACION INICIAL
     tabla = []
     max_potencia = 0
-    max_matriz = np.empty((0,10), int)
+    max_matriz = []
+    #max_matriz = np.empty((0,10), int)
     #tabla.append(computar(pob))
-    for _ in range(cant_corridas):
+    for j in range(cant_corridas):
+        pobHijos = elitismo(pob)
         ruleta = tirar_ruleta(pob) # RULETA
-        pobHijos = []
-        for i in range(int(cant_pi/2)): # Voy a hacer 25 cruces
+        for i in range(int((cant_pi-r)/2)): # Voy a hacer [(poblacionInicial - r)/2] cruces
             a = pob[ruleta[2*i]]     # SELECCIONAR PADRE 1
             b = pob[ruleta[(2*i)+1]] # SELECCIONAR PADRE 2
             c,d = crossover(a,b) # CRUZAR PADRE 1 CON PADRE 2
@@ -330,14 +349,26 @@ def programa_principal():
             d = recorte(d)  # RECORTAR HIJO 2
             pobHijos.append(c) # INSERTAR HIJO 1
             pobHijos.append(d) # INSERTAR HIJO 2
-        pob = pobHijos
-        fila = computar(pob) # COMPUTAR POBLACION
+        
+        fila = computar(pobHijos) # COMPUTAR POBLACION: mini,maxi,prom,indi
         if fila[1] > max_potencia:
+            print("Entra en: ",j)
             max_potencia = fila[1] # Guardar máxima potencia
-            max_matriz = pob[fila[3]] # Guardar mejor parque
+            max_matriz = pobHijos[fila[3]] # Guardar mejor parque
+            print(max_matriz)
+            print(max_potencia)
+            #reporte(max_matriz,max_matriz)
         tabla.append(fila) # Rellenar tabla
-    graficar_resultados(tabla) # GRAFICAR CORRIDAS
+        pob = pobHijos
+        #print(j,"pot: ",max_potencia)
+        #reporte(max_matriz,max_matriz)
+    #graficar_resultados(tabla) # GRAFICAR CORRIDAS
+    print("fin")
+    print(max_matriz)
+    #print(funcion_objetivo(max_matriz))
+    reporte(max_matriz,max_matriz)
     graficar_parque(max_matriz) # GRAFICAR PARQUE EÓLICO
+    
 
 programa_principal()
 #programa_muestra()
