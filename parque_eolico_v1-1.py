@@ -8,11 +8,11 @@ import numpy as np
 
 # PARÁMETROS
 cant_pi = 50 # Cantidad población inicial = 50
-cant_corridas = 300 # Cantidad de corridas
+cant_corridas = 1500 # Cantidad de corridas
 pc = 0.75 # Probabilidad de crossover  
 pm = 0.25 # Probabilidad de mutación
 cant_molinos = 30 # Cantidad de molinos
-u0 = 20 # Velocidad del viento en m/s
+u0 = 5 # Velocidad del viento en m/s
 coef_arrastre = 0.05 # alpha
 coef_induccionAxial = 0.333 # a
 diam_turbina = 47 # Metros
@@ -133,7 +133,7 @@ def crossover(matriz1,matriz2):
         matriz_col = matriz2
     return matriz_fila, matriz_col
 
-# MUTACION
+# MUTACION 1
 # Argumento: Posiciones de los molinos en el parque. (Array[10x10] de Enteros)
 # Devuelve: Posiciones de los molinos en el parque. (Array[10x10] de Enteros)
 def mutacion(matriz):
@@ -146,6 +146,26 @@ def mutacion(matriz):
             matriz[f,c] = 0 # Cambio el bit
     return matriz
 
+# MUTACION 2
+# Argumento: Posiciones de los molinos en el parque. (Array[10x10] de Enteros)
+# Devuelve: Posiciones de los molinos en el parque. (Array[10x10] de Enteros)
+def mutacion2(matriz):
+    if random.random()<=pm:
+        listaOcupados = []
+        listaVacios = []
+        for i in range(10):
+            for j in range(10):
+                if matriz[i][j]==0:
+                    listaVacios.append((i,j))
+                else:
+                    listaOcupados.append((i,j))
+        coordenadaOcupada = random.choice(listaOcupados)
+        coordenadaVacia = random.choice(listaVacios)
+        matriz[coordenadaOcupada[0],coordenadaOcupada[1]] = 0
+        matriz[coordenadaVacia[0],coordenadaVacia[1]] = 1
+    return matriz
+
+
 # RECORTE: Elimina molinos que superen el máximo permitido por parque. Elimina los que menos generan.
 # Argumento: Posiciones de los molinos en el parque. (Array[10x10] de Enteros)
 # Devuelve: Posiciones de los molinos en el parque. (Array[10x10] de Enteros)
@@ -153,9 +173,9 @@ def recorte(matriz):
     x = np.sum(matriz) # Cantidad de molinos
     _, matriz_pot = funcion_objetivo(matriz) # Potencia generada por cada molino
     for i in range(10):
-            for j in range(10):
-                if matriz_pot[i][j]==0 and matriz[i][j] == 1:
-                    matriz[i][j]=0
+        for j in range(10):
+            if matriz_pot[i][j]==0 and matriz[i][j] == 1:
+                matriz[i][j]=0
     if x > cant_molinos: # Si supera los permitidos
         # Cambiar los ceros por 99999. Permite buscar los que menos generan, sin que los ceros influyan. Mejorar!
         for i in range(10):
@@ -306,14 +326,15 @@ def programa_muestra():
     print('2 - CROSSOVER *************************************')
     c,d = crossover(a,b) # CRUZAR PADRE 1 CON PADRE 2
     reporte(c,d)
-    print('3 - MUTACION *************************************')
-    c = mutacion(c) # MUTAR HIJO 1
-    d = mutacion(d) # MUTAR HIJO 2
-    reporte(c,d)
-    print('4 - RECORTE *************************************')
+    print('3 - RECORTE *************************************')
     c = recorte(c)  # RECORTAR HIJO 1
     d = recorte(d)  # RECORTAR HIJO 2
     reporte(c,d)
+    print('4 - MUTACION *************************************')
+    c = mutacion2(c) # MUTAR HIJO 1
+    d = mutacion2(d) # MUTAR HIJO 2
+    reporte(c,d)
+
 
 # ELITISMO
 def elitismo(poblacion):
@@ -349,7 +370,7 @@ def programa_principal():
             d = recorte(d)  # RECORTAR HIJO 2
             pobHijos.append(c) # INSERTAR HIJO 1
             pobHijos.append(d) # INSERTAR HIJO 2
-        
+            
         fila = computar(pobHijos) # COMPUTAR POBLACION: mini,maxi,prom,indi
         if fila[1] > max_potencia:
             print("Entra en: ",j)
